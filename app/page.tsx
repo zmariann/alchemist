@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 
 export default function Home() {
   //const data = await getServerSession(authOptions);
-  const { data } = useSession();
-  return <main>{JSON.stringify(data)}</main>;
+  //const { data } = useSession();
+  //return <main>{JSON.stringify(data)}</main>;
+  return <div>home</div>
 }

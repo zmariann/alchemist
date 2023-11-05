@@ -1,4 +1,3 @@
-import { users } from "@/helpers/constants";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -7,24 +6,40 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", placeholder: "E-mail Address" },
+        username: { label: "Username", type: "text", placeholder: "name" },
         password: {
           label: "Password",
+          type: "password",
           placeholder: "Password",
         },
       },
       async authorize(credentials) {
-        if (!credentials || !credentials.email || !credentials.password)
-          return null;
-        const user = users.find((item) => item.email === credentials.email);
-        if (user?.password === credentials.password) {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: credentials?.username,
+            password: credentials?.password,
+          }),
+        });
+
+        const user = await res.json();
+
+        //const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+        if (user) {
+          // Any object returned will be saved in `user` property of the JWT
           return user;
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          return null;
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
-        return null;
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  //secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

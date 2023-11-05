@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -9,7 +7,6 @@ export async function POST(req: NextRequest) {
     const title: string = body.booktitle;
     const author: string = body.bookAuthor;
     const genre: string = body.bookGenre;
-    console.log(title, author, genre);
 
     const newEntry = await prisma.bookSuggestion.create({
       data: {
@@ -27,3 +24,13 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const allBooks = await prisma.bookSuggestion.findMany();
+    return NextResponse.json({ allBooks }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: "Error get all books" }, { status: 500 });
+  }
+}
+
