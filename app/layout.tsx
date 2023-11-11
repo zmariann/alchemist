@@ -2,8 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./components/AuthProvider";
-
-const inter = Inter({ subsets: ["latin"] });
+import NavBar from "./components/NavBar";
 
 export const metadata: Metadata = {
   title: "Alchemist",
@@ -17,13 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <AuthProvider>
-        <main>
+        <NavBar/>
           {children}
-        </main>
         </AuthProvider>
-
       </body>
     </html>
   );
