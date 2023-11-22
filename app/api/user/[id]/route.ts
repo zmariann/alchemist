@@ -28,5 +28,3 @@ export async function GET(
   });
   return new Response(JSON.stringify(userPosts));
 }
-
-// in primsa CLI:  INSERT INTO Post (title, content, published, authorId) VALUES ("post1", "lorem", true, 1);

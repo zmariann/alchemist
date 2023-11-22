@@ -6,7 +6,9 @@ const NavBar = () => {
     <div className="bg-slate-100">
       NAVIGATION BAR |  {}
       <SignInButton /> | {}
-      <Link className="" href="/posts">User Post Page</Link>
+      <Link className="" href="/posts">User Post Page</Link> |  {}
+      <Link className="" href="/profile">User Profile</Link> |  {}
+      <Link className="" href="/admin">Admin Dashboard</Link>
     </div>
   );
 };
