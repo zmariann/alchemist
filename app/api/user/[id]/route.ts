@@ -3,7 +3,7 @@ import prisma from "@/app/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   const accessToken = request.headers.get("authorization");
   if (!accessToken || !verifyJwt(accessToken)) {
@@ -16,7 +16,7 @@ export async function GET(
   }
 
   const userPosts = await prisma.post.findMany({
-    where: { authorId: +params.id },
+    where: { authorId: params.id },
     include: {
       author: {
         select: {

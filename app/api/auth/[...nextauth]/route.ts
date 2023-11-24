@@ -35,6 +35,7 @@ export const authOptions: NextAuthOptions = {
         });
         const user = await res.json();
         //const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+        console.log("nextauth", user)
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
@@ -51,6 +52,7 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
       profile(profile) {
+        //console.log("nextauth", profile)
         return {
           id: profile.sub,
           name: `${profile.given_name} ${profile.family_name}`,
@@ -71,7 +73,7 @@ export const authOptions: NextAuthOptions = {
       return { ...token, ...user };
     },
     async session({ session, token }) {
-      session.user.role = token.role;
+      session.user = token as any;
       return session;
     },
   },
